@@ -1,0 +1,160 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Roger Urbano Gráficos personalizados'" [icon]="'fa-bar-chart-o'"></app-page-header>
+
+   <div class="row">
+      <div class="col col-sm-6">
+         <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+               Gráfico de Líneas
+            </div>
+            <div class="card-body">
+               <canvas baseChart width="400" height="300"
+                       [datasets]="lineChartData"
+                       [labels]="lineChartLabels"
+                       [options]="lineChartOptions"
+                       [colors]="lineChartColors"
+                       [legend]="lineChartLegend"
+                       [chartType]="lineChartType"
+                       (chartHover)="chartHovered($event)"
+                       (chartClick)="chartClicked($event)">
+               </canvas>
+
+            </div>
+         </div>
+      </div>
+
+      <div class="col col-sm-6">
+         <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+               Datos del Gráfico
+            </div>
+            <div class="card-body">
+               <table class="table table-responsive table-condensed">
+                  <tr>
+                     <th *ngFor="let label of lineChartLabels">{{label}}</th>
+                  </tr>
+                  <tr *ngFor="let d of lineChartData; let i=index" [class]="'line-'+i">
+                     <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+                  </tr>
+               </table>
+               <div class="d-flex justify-content-start">
+                  <button class="btn btn-primary mr-3" (click)="randomize()">Randomize</button>
+                  <button class="btn btn-primary" (click)="pushOne()">Push</button>
+                  <!--<button class="btn btn-primary" (click)="changeColor()">Recolor</button>-->
+                  <!--<button class="btn btn-primary" (click)="changeLabel()">Change Label</button>-->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="row mt-5">
+      <div class="col col-sm-6">
+         <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+               Gráfico de Barras
+            </div>
+            <div class="card-body">
+               <canvas baseChart
+                       [datasets]="barChartData"
+                       [labels]="barChartLabels"
+                       [options]="barChartOptions"
+                       [legend]="barChartLegend"
+                       [chartType]="barChartType"
+                       (chartHover)="chartHoveredBar($event)"
+                       (chartClick)="chartClickedBar($event)">
+               </canvas>
+            </div>
+         </div>
+      </div>
+
+      <div class="col col-sm-6">
+         <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+               Datos del Gráfico de Barras
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-start">
+                  <button class="btn btn-primary mr-3" (click)="randomizeBar()">Randomize</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+    <!--<div class="row">-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Bar Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+                <!--<div class="card-footer">-->
+                    <!--<button class="btn btn-info btn-sm" (click)="randomize()">Update</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Doughnut Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row">-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Radar Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart height="150px" [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Pie Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row">-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Polar Area Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart height="130px" [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [legend]="polarAreaLegend" [chartType]="polarAreaChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col col-sm-6">-->
+            <!--<div class="card mb-3">-->
+                <!--<div class="card-header">-->
+                    <!--Line Chart-->
+                <!--</div>-->
+                <!--<div class="card-body">-->
+                    <!--<canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">-->
+                    <!--</canvas>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+<!--</div>-->
